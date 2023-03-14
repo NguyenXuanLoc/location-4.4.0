@@ -106,7 +106,10 @@ public class FlutterLocation
             buildLocationSettingsRequest();
         } else {
             if (mFusedLocationClient != null) {
-                mFusedLocationClient.removeLocationUpdates(mLocationCallback);
+                try {
+                    mFusedLocationClient.removeLocationUpdates(mLocationCallback);
+                } catch (Exception e) {
+                }
             }
             mFusedLocationClient = null;
             mSettingsClient = null;

@@ -53,10 +53,12 @@ public class LocationPlugin implements FlutterPlugin, ActivityAware {
     }
 
     private void detachActivity() {
-        dispose();
-
-        activityBinding.getActivity().unbindService(serviceConnection);
-        activityBinding = null;
+        try {
+            dispose();
+            activityBinding.getActivity().unbindService(serviceConnection);
+            activityBinding = null;
+        } catch (Exception e) {
+        }
     }
 
     @Override
@@ -109,17 +111,21 @@ public class LocationPlugin implements FlutterPlugin, ActivityAware {
     }
 
     private void dispose() {
-        streamHandlerImpl.setLocation(null);
+       try{
+           streamHandlerImpl.setLocation(null);
 
-        methodCallHandler.setLocationService(null);
-        methodCallHandler.setLocation(null);
+           methodCallHandler.setLocationService(null);
+           methodCallHandler.setLocation(null);
 
-        activityBinding.removeRequestPermissionsResultListener(locationService.getServiceRequestPermissionsResultListener());
-        activityBinding.removeRequestPermissionsResultListener(locationService.getLocationRequestPermissionsResultListener());
-        activityBinding.removeActivityResultListener(locationService.getLocationActivityResultListener());
+           activityBinding.removeRequestPermissionsResultListener(locationService.getServiceRequestPermissionsResultListener());
+           activityBinding.removeRequestPermissionsResultListener(locationService.getLocationRequestPermissionsResultListener());
+           activityBinding.removeActivityResultListener(locationService.getLocationActivityResultListener());
 
-        locationService.setActivity(null);
+           locationService.setActivity(null);
 
-        locationService = null;
+           locationService = null;
+       }catch (Exception e){
+
+       }
     }
 }

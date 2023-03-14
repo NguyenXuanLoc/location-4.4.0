@@ -251,8 +251,11 @@ class FlutterLocationService : Service(), PluginRegistry.RequestPermissionsResul
     }
 
     fun setActivity(activity: Activity?) {
-        this.activity = activity
-        location?.setActivity(activity)
+        try {
+            this.activity = activity
+            location?.setActivity(activity)
+        } catch (Exception e) {
+        }
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray): Boolean {
